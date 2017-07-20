@@ -87,7 +87,7 @@ class Activity(Response):
                     setattr(self, 'fromAccount', value)
             if key == 'type':
                 if getattr(self, 'type') is None:
-                    setattr(self, 'type', 'message')
+                    setattr(self, 'type', value)
             elif key == 'id':
                 self.activityId = value
             elif key not in skip:
