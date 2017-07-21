@@ -18,7 +18,7 @@ except ImportError:
 
 class MsBot:
     def __init__(self, host=None, port=None, debug=None, app_client_id=None, verify_jwt_signature=None,
-                 config_location=None, cache=None, state=None):
+                 config_location=None, cache=None, state=None, ssl_context=None):
         self.app = Flask(__name__)
 
         self.processes = []
@@ -27,6 +27,7 @@ class MsBot:
         self.port = config.get_config(port, 'PORT', root='flask')
         self.debug = config.get_config(debug, 'DEBUG', root='flask')
         self.app_client_id = config.get_config(app_client_id, 'APP_CLIENT_ID')
+        self.ssl_context = ssl_context
 
         cache_arg = config.get_config(cache, 'cache')
         state_arg = config.get_config(state, 'state')
@@ -89,7 +90,7 @@ class MsBot:
         self.processes.append(process)
 
     def run(self):
-        self.app.run(host=self.host, port=self.port, debug=self.debug)
+        self.app.run(host=self.host, port=self.port, debug=self.debug, ssl_context=self.ssl_context)
 
     def _verify_token(self, request, forced_refresh=False):
         authorization_header = request.headers['Authorization']
